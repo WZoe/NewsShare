@@ -52,7 +52,7 @@
                     <label for="password">Password </label>
                     <input class="form-control" type="password" name="password"/>
                 </div>
-                <input class="btn btn-primary btn-block" type="submit" value="Log in"/><br>
+                <input class="btn btn-primary btn-block" type="submit" value="Sign Up"/><br>
             </form>
             <?php
             //signup function
