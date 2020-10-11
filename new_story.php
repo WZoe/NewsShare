@@ -13,7 +13,7 @@
     <title>News Share</title>
 </head>
 <body>
-<nav class="navbar navbar-dark navbar-expand-sm bg-dark  fixed-top">
+<nav class="navbar navbar-dark navbar-expand-sm bg-dark fixed-top">
     <div class="container">
         <a class="navbar-brand mr-auto" href="index.php"><i class="far fa-2x fa-newspaper">News Share</i></a>
         <ul class="navbar-nav justify-content-end">
@@ -31,67 +31,67 @@
     </div>
 </nav>
 <!-- Write Code Here -->
-
-<div class="container mt-5">
-    <div class="row">
-        <h1 class="mt-5 mb-5 ml-5 col-12"><?php
-            if (!$_SESSION) {
-                session_start();
-            }
-            // make sure user is logged in
-            if (isset($_SESSION['username'])) {
-                echo htmlentities($_SESSION['username']);
-            } else {
-                header("Location: index.php");
-            }
-            ?></h1>
-    </div>
-    <div class="row">
-        <ul class="nav nav-tabs nav-fill col-12">
-            <li class="nav-item">
-                <a class="nav-link active" href="#">My Stories</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="comments.php">My Comments</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="followers.php">Followers</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="following.php">Following</a>
-            </li>
-        </ul>
-    </div>
-</div>
-
-<!-- story list -->
-<div class="container mb-5">
-    <?php
-    // fetch stories by popularity
-    $mysqli = new mysqli('localhost', '503', '503', 'news_site');
-    $stmt = $mysqli->prepare("select id, title, content, likes from stories where user_id=? order by likes desc");
-    $stmt->bind_param('i', $_SESSION['id']);
-    $stmt->execute();
-    $stmt->bind_result($story_id, $title, $content, $likes);
-
-
-    while ($stmt->fetch()) {
-        // print stories
-        printf('<div class="row mb-3"><div class="card col-12"><div class="row">
-        <i class="fas fa-heart fa-2x col-1 align-self-center" style="color: orangered">%s</i>
-        <div class="card-body text-truncate col-10">
-            <h3 class="card-title"><a href="story_detail.php?id=%s">%s</a></h3>
-            <p class="card-text">%s</p>
-            <p class="font-weight-light text-secondary">Posted by %s</p>
+<div class="jumbotron">
+    <div class="container mt-5">
+        <div class="row">
+            <h1>Post New Story</h1>
         </div>
-    </div></div></div>',
-            $likes, $story_id, $title, $content, $_SESSION['username']
-        );
-
-    }
-    $stmt->close();
-    ?>
+    </div>
 </div>
+<div class="container">
+    <div class="row">
+        <form class="col-12" method="POST">
+            <div class="form-group">
+                <label for="title">Title </label>
+                <input class="form-control" type="text" name="title"/>
+            </div>
+            <div class="form-group">
+                <label for="link">Link </label>
+                <input class="form-control" type="url" name="link"/>
+            </div>
+            <div class="form-group">
+                <label for="content">Body </label>
+                <textarea class="form-control" rows="10" name="content"></textarea>
+            </div>
+            <input class="btn btn-primary btn-block" type="submit" value="Submit"/><br>
+        </form>
+    </div>
+</div>
+
+<?php
+// submit new story
+
+if (!$_SESSION) {
+    session_start();
+}
+// make sure user is logged in
+if (!isset($_SESSION['username'])) {
+    header("Location: index.php");
+} else {
+    if (isset($_POST["title"]) && isset($_POST["link"]) && isset($_POST["content"])) {
+        //read from input
+        $title = htmlentities($_POST["title"]);
+        $link = htmlentities($_POST["link"]);
+        $content = htmlentities($_POST["content"]);
+        if ($title == "" || $link == "" || $content == "") {
+            // no input, alert user
+            echo '<div class="alert alert-danger" role="alert">
+                    Please fill out all fields!</div>';
+        } else {
+            // insert new sotry
+            $mysqli = new mysqli('localhost', '503', '503', 'news_site');
+            $stmt = $mysqli->prepare("insert into stories (title, content, link, user_id, likes) values (?,?,?,?,0)");
+            $stmt->bind_param('sssi', $title, $content, $link, $_SESSION['id']);
+            $stmt->execute();
+            $story_id = $mysqli->insert_id;
+            $stmt->close();
+
+            header('Location: story_detail.php?id=' . $story_id);
+        }
+    }
+
+}
+?>
 
 
 <footer class="jumbotron">

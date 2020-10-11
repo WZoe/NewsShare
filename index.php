@@ -5,7 +5,8 @@
     <!-- The following lines are cited from https://getbootstrap.com/docs/4.5/getting-started/introduction/ -->
     <!-- Bootstrap CSS -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <!-- Citation End -->
     <link rel="stylesheet" href="main.css">
 
@@ -21,9 +22,8 @@
             if (!isset($_SESSION["username"])) {
                 echo '<li class="nav-item"><a class="btn btn-primary mr-3" href="signup.php">Sign Up</a></li>';
                 echo '<li class="nav-item"><a class="btn btn-light" href="login.php">Log In</a></li>';
-            }
-            else {
-                echo '<li class="nav-item"><a class="nav-link mr-3" href="profile.php">'.htmlentities($_SESSION["username"]).'\'s Profile</a></li>';
+            } else {
+                echo '<li class="nav-item"><a class="nav-link mr-3" href="profile.php">' . htmlentities($_SESSION["username"]) . '\'s Profile</a></li>';
                 echo '<li class="nav-item"><a class="btn btn-light" href="logout.php">Log Out</a></li>';
             }
             ?>
@@ -43,15 +43,17 @@
 </div>
 <div class="container">
     <div class="row">
-        <button class="btn btn-primary btn-lg mb-3
-        <?php
-        // make sure user is logged in
-        session_start();
-        if (!isset($_SESSION["username"])) {
-            echo "disabled";
-        }
-        ?>
-">New Story</button>
+        <a href="new_story.php" class="btn btn-primary btn-lg mb-3"
+            <?php
+            // make sure user is logged in
+            if (!isset($_SESSION)) {
+                session_start();
+            }
+            if (!isset($_SESSION["username"])) {
+                echo " hidden";
+            }
+            ?>
+        >New Story</a>
     </div>
 </div>
 
@@ -63,7 +65,6 @@
     $stmt = $mysqli->prepare("select id, title, content, user_id, likes from stories order by likes desc");
     $stmt->execute();
     $stmt->bind_result($story_id, $title, $content, $user_id, $likes);
-
 
 
     while ($stmt->fetch()) {
@@ -80,22 +81,17 @@
         printf('<div class="row mb-3"><div class="card col-12"><div class="row">
         <i class="fas fa-heart fa-2x col-1 align-self-center" style="color: orangered">%s</i>
         <div class="card-body text-truncate col-10">
-            <h3 class="card-title"><a href="%s">%s</a></h3>
+            <h3 class="card-title"><a href="story_detail.php?id=%s">%s</a></h3>
             <p class="card-text">%s</p>
             <p class="font-weight-light text-secondary">Posted by %s</p>
         </div>
     </div></div></div>',
-        $likes, $likes, $title, $content, $usernmae
+            $likes, $story_id, $title, $content, $usernmae
         );
-
-        //TODO: 给story添加链接
     }
     $stmt->close();
     ?>
 </div>
-
-
-
 
 
 <footer class="jumbotron">
@@ -106,9 +102,23 @@
 <script src="https://kit.fontawesome.com/b53fd5134a.js" crossorigin="anonymous"></script>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
 <!-- Citation End -->
 </body>
 </html>
+
+<!-- todo:增加数据库样本 多搞点测试数据 -->
+<!-- todo: 写readme-->
+<!-- todo: Relational database is configured with correct data types and foreign keys (4 points) Note: To demonstrate the structure of your database, you should commit a 'single' text file containing the output of the SHOW CREATE TABLE command for all tables in your database, called tables.sql. This one file should contain the output for all of your tables.-->
+<!-- todo: final code reformatting and review-->
+<!-- todo: check FIEO-->
+<!-- todo: check validators-->
+<!-- todo:CSRF tokens are passed when creating, editing, and deleting comments and stories (5 points) ?????-->

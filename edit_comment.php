@@ -1,0 +1,1 @@
+<!-- todo: 编辑comment内容。可以直接套new_comment的模板。用get获取story_id和comment_id。注意提前判断用户是否有权限，没有的话直接跳转回story_detail.-->
