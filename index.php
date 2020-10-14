@@ -115,10 +115,8 @@
 </body>
 </html>
 
-<!-- TODO:增加数据库样本 多搞点测试数据 -->
-<!-- TODO: 写readme-->
-<!-- TODO: Relational database is configured with correct data types and foreign keys (4 points) Note: To demonstrate the structure of your database, you should commit a 'single' text file containing the output of the SHOW CREATE TABLE command for all tables in your database, called tables.sql. This one file should contain the output for all of your tables.-->
-<!-- TODO: final code reformatting and review-->
+
+<!-- TODO: check validators: see file urlsToValidate.md-->
 <!-- TODO: check FIEO-->
-<!-- TODO: check validators-->
 <!-- TODO:CSRF tokens are passed when creating, editing, and deleting comments and stories (5 points) ?????-->
+<!-- TODO: final code reformatting and review-->

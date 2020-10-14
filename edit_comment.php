@@ -34,8 +34,7 @@
 <?php
 if (!isset($_GET['story_id']) || !isset($_GET['comment_id'])) {
     header('Location: index.php');
-}
-else {
+} else {
     $story_id = $_GET["story_id"];
     $comment_id = $_GET["comment_id"];
     // retrieve original comment content and owner
@@ -88,7 +87,7 @@ if (!isset($_SESSION['username'])) {
     header("Location: index.php");
 } else {
     // check if current user has right to edit this comment
-    if ($_SESSION['id']==$owner_id) { 
+    if ($_SESSION['id'] == $owner_id) {
         if (isset($_POST["content"])) {
             //read from input
             $content = htmlentities($_POST["content"]);
@@ -102,12 +101,11 @@ if (!isset($_SESSION['username'])) {
                 $stmt = $mysqli->prepare("UPDATE comments SET content=? WHERE id=?");
                 $stmt->bind_param('si', $content, $comment_id);
                 $stmt->execute();
-                $stmt->close(); 
+                $stmt->close();
                 header('Location: story_detail.php?id=' . $story_id);
             }
         }
-    }
-    else {  // not owner, can't edit
+    } else {  // not owner, can't edit
         header('Location: story_detail.php?id=' . $story_id);
     }
 }

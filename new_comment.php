@@ -35,6 +35,16 @@
 //get story and content
 if (!isset($_GET['id'])) {
     header('Location: index.php');
+} else {
+    $story_id = $_GET["id"];
+    // retrieve original story title, link, content and owner
+    $mysqli1 = new mysqli('ec2-54-191-166-77.us-west-2.compute.amazonaws.com', '503', '503', 'news_site');
+    $stmt1 = $mysqli1->prepare("SELECT title FROM stories WHERE id=?");
+    $stmt1->bind_param('i', $story_id);
+    $stmt1->execute();
+    $stmt1->bind_result($title);
+    $stmt1->fetch();
+    $stmt1->close();
 }
 ?>
 
@@ -44,7 +54,7 @@ if (!isset($_GET['id'])) {
             <h3>Add Comments on </h3>
         </div>
         <div class="row">
-            <h1><?php echo $_GET['title'] ?></h1>
+            <h1><?php echo $title ?></h1>
         </div>
     </div>
 </div>

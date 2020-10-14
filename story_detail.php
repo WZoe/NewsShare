@@ -74,7 +74,7 @@ if (!isset($_GET['id'])) {
         </div>
         <div class="row justify-content-center mt-3">
             <div class="btn-group btn-group-lg">
-                <a href="<?php echo 'like_story.php?story_id='.$story_id ?>" class="btn btn-danger <?php
+                <a href="<?php echo 'like_story.php?story_id=' . $story_id ?>" class="btn btn-danger <?php
                 // check if logged in
                 if (!isset($_SESSION['id'])) {
                     echo 'disabled';
@@ -99,8 +99,7 @@ if (!isset($_GET['id'])) {
                         $stmt4->close();
                         if ($relationship == 0) {
                             echo '<a href="follow_author.php?author_id=' . $user_id . '&story_id=' . $story_id . '" class="btn btn-dark">Follow Author</a>';
-                        }
-                        else {
+                        } else {
                             echo '<a class="btn btn-dark">Following</a>';
                         }
                     } else {
@@ -127,7 +126,7 @@ if (!isset($_GET['id'])) {
 <div class="container mb-5">
     <div class="row border-bottom mb-3">
         <h2 class="col-10">Comments</h2>
-        <a href="new_comment.php?id=<?php echo $story_id; ?>&title=<?php echo $title; ?>" class="col-2 btn btn-primary"
+        <a href="new_comment.php?id=<?php echo $story_id; ?>" class="col-2 btn btn-primary"
             <?php
             // check if logged in
             if (!isset($_SESSION['id'])) {

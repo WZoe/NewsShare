@@ -34,8 +34,7 @@
 <?php
 if (!isset($_GET['story_id'])) {
     header('Location: index.php');
-}
-else {
+} else {
     $story_id = $_GET["story_id"];
     // retrieve original story title, link, content and owner
     $mysqli1 = new mysqli('ec2-54-191-166-77.us-west-2.compute.amazonaws.com', '503', '503', 'news_site');
@@ -83,7 +82,7 @@ if (!isset($_SESSION['username'])) {
     header("Location: index.php");
 } else {
     // check if user has the right to edit this story
-    if ($_SESSION['id']==$owner_id) {
+    if ($_SESSION['id'] == $owner_id) {
         if (isset($_POST["title"]) && isset($_POST["link"]) && isset($_POST["content"])) {
             //read from input
             $title = htmlentities($_POST["title"]);
@@ -103,8 +102,7 @@ if (!isset($_SESSION['username'])) {
                 header('Location: story_detail.php?id=' . $story_id);
             }
         }
-    }
-    else { // not story owner, can't edit
+    } else { // not story owner, can't edit
         header('Location: story_detail.php?id=' . $story_id);
     }
 }
