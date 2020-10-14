@@ -105,10 +105,10 @@ if (!isset($_GET['id'])) {
                     } else {
                         echo '<a href="edit_story.php?story_id=' . $story_id . '" class="btn btn-secondary">Edit</a>';
                         // form for deleting story
-                        echo '<form class="col-12" action="delete_story.php" method="POST">';
+                        echo '<form class="btn btn-secondary" action="delete_story.php" method="POST">';
                         echo '<input type="hidden" name="story_id" value="' . $story_id . '" />';
                         echo '<input type="hidden" name="token" value="' . $_SESSION['token'] . '" />';
-                        echo '<input class="btn btn-secondary" type="submit" value="Delete"/><br>';
+                        echo '<input class="btn" type="submit" value="Delete"/><br>';
                         echo '</form>';
                     }
                 }
@@ -167,11 +167,11 @@ if (!isset($_GET['id'])) {
             if ($_SESSION['id'] == $comment_user_id) {
                 echo '<a href="edit_comment.php?story_id=' . $story_id . '&comment_id=' . $comment_id . '" class="btn btn-secondary">Edit</a>';
                 // form for deleting comment
-                echo '<form class="col-12" action="delete_comment.php" method="POST">';
+                echo '<form class="btn btn-secondary"" action="delete_comment.php" method="POST">';
                     echo '<input type="hidden" name="story_id" value="' . $story_id . '" />';
                     echo '<input type="hidden" name="comment_id" value="' . $comment_id . '" />';
                     echo '<input type="hidden" name="token" value="' . $_SESSION['token'] . '" />';
-                    echo '<input class="btn btn-secondary" type="submit" value="Delete"/><br>';
+                    echo '<input class="btn" type="submit" value="Delete"/><br>';
                 echo '</form>';
             }
         }
