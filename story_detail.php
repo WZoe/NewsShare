@@ -39,7 +39,7 @@ if (!isset($_GET['id'])) {
     $story_id = $_GET['id'];
 
     //retrieve story
-    $mysqli = new mysqli('localhost', '503', '503', 'news_site');
+    $mysqli = new mysqli('ec2-54-191-166-77.us-west-2.compute.amazonaws.com', '503', '503', 'news_site');
     $stmt = $mysqli->prepare("select title, content, link, user_id, likes from stories where id=?");
     $stmt->bind_param('i', $story_id);
     $stmt->execute();
@@ -48,14 +48,14 @@ if (!isset($_GET['id'])) {
     $stmt->close();
 
     //retrieve comments
-    $mysqli2 = new mysqli('localhost', '503', '503', 'news_site');
-    $stmt2 = $mysqli2->prepare("select id, content, user_id, likes from comments where story_id=?");
+    $mysqli2 = new mysqli('ec2-54-191-166-77.us-west-2.compute.amazonaws.com', '503', '503', 'news_site');
+    $stmt2 = $mysqli2->prepare("select id, content, user_id, likes from comments where story_id=? order by likes desc");
     $stmt2->bind_param('i', $story_id);
     $stmt2->execute();
     $stmt2->bind_result($comment_id, $comment_content, $comment_user_id, $comment_likes);
 
     //retrieve author
-    $mysqli3 = new mysqli('localhost', '503', '503', 'news_site');
+    $mysqli3 = new mysqli('ec2-54-191-166-77.us-west-2.compute.amazonaws.com', '503', '503', 'news_site');
     $stmt3 = $mysqli3->prepare("select username from users where id=?");
     $stmt3->bind_param('i', $user_id);
     $stmt3->execute();
@@ -74,8 +74,7 @@ if (!isset($_GET['id'])) {
         </div>
         <div class="row justify-content-center mt-3">
             <div class="btn-group btn-group-lg">
-                <!-- todo: 给like按钮绑定动作，点击后like数+1，返回并刷新story_detail页面。可以写到一个新like.php里面 类似logout-->
-                <a href="#" class="btn btn-danger <?php
+                <a href="<?php echo 'like_story.php?story_id='.$story_id ?>" class="btn btn-danger <?php
                 // check if logged in
                 if (!isset($_SESSION['id'])) {
                     echo 'disabled';
@@ -91,12 +90,22 @@ if (!isset($_GET['id'])) {
                     session_destroy();
                 } else {
                     if ($_SESSION['id'] != $user_id) {
-                        //todo: 给follow author绑定动作。
-                        echo '<a href="#" class="btn btn-dark">Follow Author</a>';
+                        $mysqli4 = new mysqli('ec2-54-191-166-77.us-west-2.compute.amazonaws.com', '503', '503', 'news_site');
+                        $stmt4 = $mysqli4->prepare("SELECT COUNT(follower) FROM followers WHERE follower=? AND being_followed=?");
+                        $stmt4->bind_param('ii', $_SESSION['id'], $user_id);
+                        $stmt4->execute();
+                        $stmt4->bind_result($relationship);
+                        $stmt4->fetch();
+                        $stmt4->close();
+                        if ($relationship == 0) {
+                            echo '<a href="follow_author.php?author_id=' . $user_id . '&story_id=' . $story_id . '" class="btn btn-dark">Follow Author</a>';
+                        }
+                        else {
+                            echo '<a class="btn btn-dark">Following</a>';
+                        }
                     } else {
-                        //todo: 给edit和delete分别绑定动作。如果delete要新开一个php的话注意用户有没有权限。
-                        echo '<a href="#" class="btn btn-secondary">Edit</a>';
-                        echo '<a href="#" class="btn btn-danger">Delete</a>';
+                        echo '<a href="edit_story.php?story_id=' . $story_id . '" class="btn btn-secondary">Edit</a>';
+                        echo '<a href="delete_story.php?story_id=' . $story_id . '" class="btn btn-danger">Delete</a>';
                     }
                 }
 
@@ -131,13 +140,13 @@ if (!isset($_GET['id'])) {
     //load comments
     while ($stmt2->fetch()) {
         //fetch commenter username
-        $mysqli3 = new mysqli('localhost', '503', '503', 'news_site');
-        $stmt3 = $mysqli3->prepare("select username from users where id=?");
-        $stmt3->bind_param('i', $comment_user_id);
-        $stmt3->execute();
-        $stmt3->bind_result($commenter);
-        $stmt3->fetch();
-        $stmt3->close();
+        $mysqli5 = new mysqli('ec2-54-191-166-77.us-west-2.compute.amazonaws.com', '503', '503', 'news_site');
+        $stmt5 = $mysqli5->prepare("select username from users where id=?");
+        $stmt5->bind_param('i', $comment_user_id);
+        $stmt5->execute();
+        $stmt5->bind_result($commenter);
+        $stmt5->fetch();
+        $stmt5->close();
 
         // print comments
         printf('<div class="row mb-3"><div class="card col-12"><div class="row">
@@ -150,12 +159,10 @@ if (!isset($_GET['id'])) {
         echo '<div class="col-2 btn-group-vertical align-self-center">';
         // check if user is author
         if (isset($_SESSION['id'])) {
-            //todo: 给like按钮绑定动作，like数+1并刷新页面。
-            echo '<a href="#" class="btn btn-danger"><i class="fas fa-heart"></i></a>';
+            echo '<a href="like_comment.php?story_id=' . $story_id . '&comment_id=' . $comment_id . '" class="btn btn-danger"><i class="fas fa-heart"></i></a>';
             if ($_SESSION['id'] == $comment_user_id) {
-                //todo:给edit和delete绑定动作。如果是新凯php页面注意判断是否有权限。（这个页面里按钮显示不显示的权限都是写好了的，只是怕直接从地址栏访问对应动作页面)）
-                echo '<a href="#" class="btn btn-secondary">Edit</a>';
-                echo '<a href="#" class="btn btn-danger">Delete</a>';
+                echo '<a href="edit_comment.php?story_id=' . $story_id . '&comment_id=' . $comment_id . '" class="btn btn-secondary">Edit</a>';
+                echo '<a href="delete_comment.php?story_id=' . $story_id . '&comment_id=' . $comment_id . '" class="btn btn-danger">Delete</a>';
             }
         }
         echo '</div></div></div></div>';

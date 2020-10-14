@@ -68,7 +68,7 @@
 <div class="container mb-5">
     <?php
     // fetch stories by popularity
-    $mysqli = new mysqli('localhost', '503', '503', 'news_site');
+    $mysqli = new mysqli('ec2-54-191-166-77.us-west-2.compute.amazonaws.com', '503', '503', 'news_site');
     $stmt = $mysqli->prepare("select id, title, content, likes from stories where user_id=? order by likes desc");
     $stmt->bind_param('i', $_SESSION['id']);
     $stmt->execute();

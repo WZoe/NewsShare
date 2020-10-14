@@ -67,7 +67,7 @@
 <div class="container mb-5">
     <?php
     // fetch stories by popularity
-    $mysqli = new mysqli('localhost', '503', '503', 'news_site');
+    $mysqli = new mysqli('ec2-54-191-166-77.us-west-2.compute.amazonaws.com', '503', '503', 'news_site');
     $stmt = $mysqli->prepare("select being_followed from followers where follower=?");
     $stmt->bind_param('i', $_SESSION['id']);
     $stmt->execute();
@@ -76,7 +76,7 @@
 
     while ($stmt->fetch()) {
         //fetch user_being_followed username
-        $mysqli2 = new mysqli('localhost', '503', '503', 'news_site');
+        $mysqli2 = new mysqli('ec2-54-191-166-77.us-west-2.compute.amazonaws.com', '503', '503', 'news_site');
         $stmt2 = $mysqli2->prepare("select username from users where id=?");
         $stmt2->bind_param('i', $being_followed);
         $stmt2->execute();

@@ -61,7 +61,7 @@
 <div class="container mb-5">
     <?php
     // fetch stories by popularity
-    $mysqli = new mysqli('localhost', '503', '503', 'news_site');
+    $mysqli = new mysqli('ec2-54-191-166-77.us-west-2.compute.amazonaws.com', '503', '503', 'news_site');
     $stmt = $mysqli->prepare("select id, title, content, user_id, likes from stories order by likes desc");
     $stmt->execute();
     $stmt->bind_result($story_id, $title, $content, $user_id, $likes);
@@ -69,11 +69,11 @@
 
     while ($stmt->fetch()) {
         //look up username
-        $mysqli2 = new mysqli('localhost', '503', '503', 'news_site');
+        $mysqli2 = new mysqli('ec2-54-191-166-77.us-west-2.compute.amazonaws.com', '503', '503', 'news_site');
         $stmt2 = $mysqli2->prepare("select username from users where id=?");
         $stmt2->bind_param('i', $user_id);
         $stmt2->execute();
-        $stmt2->bind_result($usernmae);
+        $stmt2->bind_result($username);
         $stmt2->fetch();
         $stmt2->close();
 
@@ -86,7 +86,7 @@
             <p class="font-weight-light text-secondary">Posted by %s</p>
         </div>
     </div></div></div>',
-            $likes, $story_id, $title, $content, $usernmae
+            $likes, $story_id, $title, $content, $username
         );
     }
     $stmt->close();
@@ -115,10 +115,10 @@
 </body>
 </html>
 
-<!-- todo:增加数据库样本 多搞点测试数据 -->
-<!-- todo: 写readme-->
-<!-- todo: Relational database is configured with correct data types and foreign keys (4 points) Note: To demonstrate the structure of your database, you should commit a 'single' text file containing the output of the SHOW CREATE TABLE command for all tables in your database, called tables.sql. This one file should contain the output for all of your tables.-->
-<!-- todo: final code reformatting and review-->
-<!-- todo: check FIEO-->
-<!-- todo: check validators-->
-<!-- todo:CSRF tokens are passed when creating, editing, and deleting comments and stories (5 points) ?????-->
+<!-- TODO:增加数据库样本 多搞点测试数据 -->
+<!-- TODO: 写readme-->
+<!-- TODO: Relational database is configured with correct data types and foreign keys (4 points) Note: To demonstrate the structure of your database, you should commit a 'single' text file containing the output of the SHOW CREATE TABLE command for all tables in your database, called tables.sql. This one file should contain the output for all of your tables.-->
+<!-- TODO: final code reformatting and review-->
+<!-- TODO: check FIEO-->
+<!-- TODO: check validators-->
+<!-- TODO:CSRF tokens are passed when creating, editing, and deleting comments and stories (5 points) ?????-->

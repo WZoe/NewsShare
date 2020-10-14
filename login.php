@@ -72,7 +72,7 @@
                     $password = $_POST['password'];
 
                     // look up database
-                    $mysqli = new mysqli('localhost', '503', '503', 'news_site');
+                    $mysqli = new mysqli('ec2-54-191-166-77.us-west-2.compute.amazonaws.com', '503', '503', 'news_site');
                     $stmt = $mysqli->prepare("select id, password from users where username=?");
                     if ($stmt) {
                         $stmt->bind_param('s', $username);

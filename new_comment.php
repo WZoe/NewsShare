@@ -79,7 +79,7 @@ if (!isset($_SESSION['username'])) {
                     Please fill out all fields!</div>';
         } else {
             // insert new sotry
-            $mysqli = new mysqli('localhost', '503', '503', 'news_site');
+            $mysqli = new mysqli('ec2-54-191-166-77.us-west-2.compute.amazonaws.com', '503', '503', 'news_site');
             $stmt = $mysqli->prepare("insert into comments (content, story_id, user_id, likes) values (?,?,?,0)");
             $stmt->bind_param('sii', $content, $_GET['id'], $_SESSION['id']);
             $stmt->execute();

@@ -70,7 +70,7 @@
                     $username = $_POST["username"];
                     $password = password_hash(trim($_POST["password"]), PASSWORD_DEFAULT);
 
-                    $mysqli = new mysqli('localhost', '503', '503', 'news_site');
+                    $mysqli = new mysqli('ec2-54-191-166-77.us-west-2.compute.amazonaws.com', '503', '503', 'news_site');
                     // look up database to see if there is existing user
                     $stmt = $mysqli->prepare("select id from users where username=?");
                     $stmt->bind_param('s', $username);
