@@ -2,12 +2,19 @@
 if (!$_SESSION) {
     session_start();
 }
+if (!empty($_POST['token'])) {
+    if (!hash_equals($_SESSION['token'], $_POST['token'])) {
+        // csrf attack
+        unset($_SESSION["token"]);
+        die("Request forgery detected");
+    }
+}
 // make sure user is logged in
 if (!isset($_SESSION['username'])) {
     header("Location: index.php");
 } else {
-    $story_id = $_GET["story_id"];
-    $comment_id = $_GET["comment_id"];
+    $story_id = $_POST["story_id"];
+    $comment_id = $_POST["comment_id"];
 
     // retrieve story owner
     $mysqli1 = new mysqli('ec2-54-191-166-77.us-west-2.compute.amazonaws.com', '503', '503', 'news_site');
