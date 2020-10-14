@@ -5,7 +5,7 @@
 
 #### Link
 
-http://ec2-54-191-166-77.us-west-2.compute.amazonaws.com/~zoewang/module3-group-module3-475518-474348/
+http://ec2-18-206-208-42.compute-1.amazonaws.com/~eimee/module3-group-module3-475518-474348/
 
 #### Suggested test user (or you can create your own)
 username:zoe
