@@ -108,7 +108,7 @@ if (!isset($_GET['id'])) {
                         echo '<form class="btn btn-secondary" action="delete_story.php" method="POST">';
                         echo '<input type="hidden" name="story_id" value="' . $story_id . '" />';
                         echo '<input type="hidden" name="token" value="' . $_SESSION['token'] . '" />';
-                        echo '<input class="btn" type="submit" value="Delete"/><br>';
+                        echo '<input class="btn text-light" type="submit" value="Delete"/><br>';
                         echo '</form>';
                     }
                 }
@@ -171,7 +171,7 @@ if (!isset($_GET['id'])) {
                     echo '<input type="hidden" name="story_id" value="' . $story_id . '" />';
                     echo '<input type="hidden" name="comment_id" value="' . $comment_id . '" />';
                     echo '<input type="hidden" name="token" value="' . $_SESSION['token'] . '" />';
-                    echo '<input class="btn" type="submit" value="Delete"/><br>';
+                    echo '<input class="btn text-light" type="submit" value="Delete"/><br>';
                 echo '</form>';
             }
         }
