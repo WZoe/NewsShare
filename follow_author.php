@@ -4,8 +4,8 @@ session_start();
 if (!isset($_SESSION['username'])) {
     header("Location: index.php");
 } else {
-    $story_id = $_GET["story_id"];
-    $author_id = $_GET["author_id"];
+    $story_id = (int)$_GET["story_id"];
+    $author_id = (int)$_GET["author_id"];
 
     if ($author_id != $_SESSION['id']) {
         //follow author: insert into followers table

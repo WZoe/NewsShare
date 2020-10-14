@@ -86,7 +86,7 @@
             <p class="font-weight-light text-secondary">Posted by %s</p>
         </div>
     </div></div></div>',
-            $likes, $story_id, $title, $content, $username
+            $likes, $story_id, htmlentities($title), htmlentities($content), htmlentities($username)
         );
     }
     $stmt->close();

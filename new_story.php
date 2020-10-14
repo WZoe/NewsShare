@@ -78,13 +78,13 @@ if (!isset($_SESSION['username'])) {
 } else {
     if (isset($_POST["title"]) && isset($_POST["link"]) && isset($_POST["content"])) {
         //read from input
-        $title = htmlentities($_POST["title"]);
-        $link = htmlentities($_POST["link"]);
-        $content = htmlentities($_POST["content"]);
+        $title = preg_match('/[^<>]+/', $_POST["title"]) ? $_POST["title"] : "";
+        $link = preg_match('/[a-zA-z]+:\/\/[^\s]*/', $_POST["link"]) ? $_POST["link"] : "";
+        $content = preg_match('/[^<>]+/', $_POST["content"]) ? $_POST["content"] : "";
         if ($title == "" || $link == "" || $content == "") {
             // no input, alert user
             echo '<div class="alert alert-danger" role="alert">
-                    Please fill out all fields!</div>';
+                    Please fill out all fields and check the format of your input!</div>';
         } else {
             // insert new sotry
             $mysqli = new mysqli('ec2-54-191-166-77.us-west-2.compute.amazonaws.com', '503', '503', 'news_site');

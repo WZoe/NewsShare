@@ -92,7 +92,7 @@
             <h3 class="card-title">%s</h3>
         </div>
     </div></div></div>',
-            $follower_username
+            htmlentities($follower_username)
         );
     }
     $stmt->close();

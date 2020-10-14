@@ -62,14 +62,15 @@
             }
             if (isset($_POST["password"]) && isset($_POST["username"])) {
                 //read username from input
-                if ($_POST["password"] == "" || $_POST["username"] == "") {
+                $username = preg_match('/^[A-Za-z_]+$/', $_POST["username"]) ? $_POST["username"] : "";
+                $password = preg_match('/^[A-Za-z_]+$/', $_POST["password"]) ? $_POST["password"] : "";
+                if ($username == "" || $password == "") {
                     // no input, alert user
                     echo '<div class="alert alert-danger" role="alert">
-                    Username and password can\'t be empty!</div>';
+                    Invalid or empty username and password! Please try again.</div>';
                 } else {
-                    $username = $_POST["username"];
-                    $password = $_POST['password'];
-
+                    $username = trim($username);
+                    $password = trim($password);
                     // look up database
                     $mysqli = new mysqli('ec2-54-191-166-77.us-west-2.compute.amazonaws.com', '503', '503', 'news_site');
                     $stmt = $mysqli->prepare("select id, password from users where username=?");

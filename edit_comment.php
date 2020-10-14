@@ -71,7 +71,7 @@ if (!isset($_GET['story_id']) || !isset($_GET['comment_id'])) {
         <form class="col-12" method="POST">
             <div class="form-group">
                 <label for="content">Comments </label>
-                <textarea class="form-control" rows="10" name="content"><?php echo trim($ori_content) ?></textarea>
+                <textarea class="form-control" rows="10" name="content"><?php echo trim(htmlentities($ori_content)) ?></textarea>
             </div>
             <?php printf("<input type='hidden' name='token' value='%s' />", $_SESSION['token']); ?>
             <input class="btn btn-primary btn-block" type="submit" value="Submit"/><br>
@@ -98,11 +98,11 @@ if (!isset($_SESSION['username'])) {
     if ($_SESSION['id'] == $owner_id) {
         if (isset($_POST["content"])) {
             //read from input
-            $content = htmlentities($_POST["content"]);
+            $content = preg_match('/[^<>]+/', $_POST["content"]) ? $_POST["content"] : "";
             if ($content == "") {
                 // no input, alert user
                 echo '<div class="alert alert-danger" role="alert">
-                        Please fill out all fields!</div>';
+                        Please fill out all fields and check the format of your input!</div>';
             } else {
                 // edit comment
                 $mysqli = new mysqli('ec2-54-191-166-77.us-west-2.compute.amazonaws.com', '503', '503', 'news_site');

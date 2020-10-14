@@ -54,7 +54,7 @@ if (!isset($_GET['id'])) {
             <h3>Add Comments on </h3>
         </div>
         <div class="row">
-            <h1><?php echo $title ?></h1>
+            <h1><?php echo htmlentities($title) ?></h1>
         </div>
     </div>
 </div>
@@ -90,11 +90,11 @@ if (!isset($_SESSION['username'])) {
 } else {
     if (isset($_POST["content"])) {
         //read from input
-        $content = htmlentities($_POST["content"]);
+        $content = preg_match('/[^<>]+/', $_POST["content"]) ? $_POST["content"] : "";
         if ($content == "") {
             // no input, alert user
             echo '<div class="alert alert-danger" role="alert">
-                    Please fill out all fields!</div>';
+                    Please fill out all fields and check the format of your input!</div>';
         } else {
             // insert new sotry
             $mysqli = new mysqli('ec2-54-191-166-77.us-west-2.compute.amazonaws.com', '503', '503', 'news_site');

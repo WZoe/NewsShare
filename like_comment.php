@@ -6,8 +6,8 @@ if (!$_SESSION) {
 if (!isset($_SESSION['username'])) {
     header("Location: index.php");
 } else {
-    $story_id = $_GET["story_id"];
-    $comment_id = $_GET["comment_id"];
+    $story_id = (int)$_GET["story_id"];
+    $comment_id = (int)$_GET["comment_id"];
 
     //retrieve story likes count
     $mysqli1 = new mysqli('ec2-54-191-166-77.us-west-2.compute.amazonaws.com', '503', '503', 'news_site');

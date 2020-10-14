@@ -91,7 +91,7 @@
             <p class="card-text">%s</p>
         </div>
     </div></div></div>',
-            $likes, $_SESSION['username'], $story_id, $title, $content
+            $likes, $_SESSION['username'], $story_id, htmlentities($title), htmlentities($content)
         );
     }
     $stmt->close();

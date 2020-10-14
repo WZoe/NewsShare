@@ -123,7 +123,7 @@ if (!isset($_GET['id'])) {
 <div class="container mb-5">
     <div class="row">
         <p><?php
-            echo nl2br($content);
+            echo nl2br(htmlentities($content));
             ?></p>
     </div>
 </div>
@@ -159,7 +159,7 @@ if (!isset($_GET['id'])) {
             <h3 class="card-title">%s</h3>
             <p class="card-text">%s</p>
         </div>'
-            , $comment_likes, $commenter, $comment_content);
+            , $comment_likes, htmlentities($commenter), htmlentities($comment_content));
         echo '<div class="col-2 btn-group-vertical align-self-center">';
         // check if user is author
         if (isset($_SESSION['id'])) {
