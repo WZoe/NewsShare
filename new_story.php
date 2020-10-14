@@ -53,6 +53,7 @@
                 <label for="content">Body </label>
                 <textarea class="form-control" rows="10" name="content"></textarea>
             </div>
+            <?php printf("<input type='hidden' name='token' value='%s' />", $_SESSION['token']); ?>
             <input class="btn btn-primary btn-block" type="submit" value="Submit"/><br>
         </form>
     </div>
@@ -63,6 +64,13 @@
 
 if (!$_SESSION) {
     session_start();
+}
+if (!empty($_POST['token'])) {
+    if (!hash_equals($_SESSION['token'], $_POST['token'])) {
+        // csrf attack
+        unset($_SESSION["token"]);
+        die("Request forgery detected");
+    }
 }
 // make sure user is logged in
 if (!isset($_SESSION['username'])) {

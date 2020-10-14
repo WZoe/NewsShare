@@ -116,7 +116,7 @@
 </html>
 
 
-<!-- TODO: check validators: see file urlsToValidate.md-->
+
 <!-- TODO: check FIEO-->
 <!-- TODO:CSRF tokens are passed when creating, editing, and deleting comments and stories (5 points) ?????-->
 <!-- TODO: final code reformatting and review-->

@@ -58,16 +58,17 @@ if (!isset($_GET['story_id'])) {
         <form class="col-12" method="POST">
             <div class="form-group">
                 <label for="title">Title </label>
-                <input class="form-control" type="text" name="title" value="<?php echo trim($ori_title) ?>">
+                <input class="form-control" type="text" id="title" name="title" value="<?php echo trim($ori_title) ?>">
             </div>
             <div class="form-group">
                 <label for="link">Link </label>
-                <input class="form-control" type="url" name="link" value="<?php echo trim($ori_link) ?>">
+                <input class="form-control" type="url" id="link" name="link" value="<?php echo trim($ori_link) ?>">
             </div>
             <div class="form-group">
                 <label for="content">Content </label>
-                <textarea class="form-control" rows="10" name="content"><?php echo trim($ori_content) ?></textarea>
+                <textarea class="form-control" rows="10" id="content" name="content"><?php echo trim($ori_content) ?></textarea>
             </div>
+            <?php printf("<input type='hidden' name='token' value='%s' />", $_SESSION['token']); ?>
             <input class="btn btn-primary btn-block" type="submit" value="Submit"/><br>
         </form>
     </div>
@@ -76,6 +77,13 @@ if (!isset($_GET['story_id'])) {
 <?php
 if (!$_SESSION) {
     session_start();
+}
+if (!empty($_POST['token'])) {
+    if (!hash_equals($_SESSION['token'], $_POST['token'])) {
+        // csrf attack
+        unset($_SESSION["token"]);
+        die("Request forgery detected");
+    }
 }
 // make sure user is logged in
 if (!isset($_SESSION['username'])) {

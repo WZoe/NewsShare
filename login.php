@@ -17,7 +17,7 @@
     <div class="container">
         <a class="navbar-brand mr-auto" href="index.php"><i class="far fa-2x fa-newspaper">News Share</i></a>
         <ul class="navbar-nav justify-content-end">
-            <?php
+        <?php
             session_start();
             if (!isset($_SESSION["username"])) {
                 echo '<li class="nav-item"><a class="btn btn-primary mr-3" href="signup.php">Sign Up</a></li>';
@@ -46,17 +46,16 @@
             <form method="POST">
                 <div class="form-group">
                     <label for="username">Username </label>
-                    <input class="form-control" type="text" name="username"/>
+                    <input class="form-control" type="text" id="username" name="username"/>
                 </div>
                 <div class="form-group">
                     <label for="password">Password </label>
-                    <input class="form-control" type="password" name="password"/>
+                    <input class="form-control" type="password" id="password" name="password"/>
                 </div>
                 <input class="btn btn-primary btn-block" type="submit" value="Log in"/><br>
             </form>
             <?php
             //login function
-
             // see if already logged in
             if (isset($_SESSION["id"])) {
                 header("Location: index.php");
@@ -83,9 +82,20 @@
                     }
                     if (isset($id) && password_verify($password, $true_password)) {
                         // validation passed, log in.
-                        session_start();
+                        if (!isset($_SESSION)) {
+                            session_start();
+                        } else {
+                            unset($_SESSION['id']);
+                            unset($_SESSION['username']);
+                            unset($_SESSION['token']);
+                            session_destroy();
+                            session_start();
+                        }
                         $_SESSION['id'] = $id;
                         $_SESSION['username'] = $username;
+                        if (empty($_SESSION['token'])) {
+                            $_SESSION['token'] = bin2hex(openssl_random_pseudo_bytes(32));
+                        }
                         header('Location: index.php');
                     } else {
                         // login failed.

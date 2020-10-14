@@ -46,11 +46,11 @@
             <form method="POST">
                 <div class="form-group">
                     <label for="username">Username </label>
-                    <input class="form-control" type="text" name="username"/>
+                    <input class="form-control" type="text" id="username" name="username"/>
                 </div>
                 <div class="form-group">
                     <label for="password">Password </label>
-                    <input class="form-control" type="password" name="password"/>
+                    <input class="form-control" type="password" id="password" name="password"/>
                 </div>
                 <input class="btn btn-primary btn-block" type="submit" value="Sign Up"/><br>
             </form>
@@ -93,11 +93,15 @@
                             if (!isset($_SESSION)) {
                                 session_start();
                             } else {
+                                unset($_SESSION['id']);
+                                unset($_SESSION['username']);
+                                unset($_SESSION['token']);
                                 session_destroy();
                                 session_start();
                             }
                             $_SESSION['id'] = $id;
                             $_SESSION['username'] = $username;
+                            $_SESSION['token'] = bin2hex(openssl_random_pseudo_bytes(32));
                             header("Location: index.php");
                         }
                         $stmt->close();
