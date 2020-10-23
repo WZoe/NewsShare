@@ -18,3 +18,6 @@ password:zoe
 - Users can follow other users at the story detail page.
 
 - Users can check their profile, navigate through stories and comments they posted, and also see people they followed and their followers.
+
+
+Comments: -0pts, Good Job!
